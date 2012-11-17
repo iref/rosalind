@@ -1,6 +1,6 @@
 package rna;
 
-import scala.io._
+import commons.Runner 
 
 class RnaTranslator {
 
@@ -14,9 +14,8 @@ object App {
 
   def main(args: Array[String]): Unit = {
     val rnaTranslator = new RnaTranslator
-    Source.fromFile(rnaFile).getLines.foreach ( line =>
-      println(rnaTranslator.translate(line))
-    )
+    val runner = new Runner
+    runner.run(rnaFile, rnaTranslator.translate)    
   }
 }
 
