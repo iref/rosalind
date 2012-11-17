@@ -1,6 +1,6 @@
 package dna 
 
-import scala.io._
+import commons.Runner
 
 /**
  * Class counts DnaBase occurrences in provided DNA string.
@@ -41,8 +41,8 @@ object App {
 
   def main(args: Array[String]): Unit = {
     val counter = new DnaBaseCounter(List('A', 'C', 'G', 'T'))
-    Source.fromFile(testFilePath).getLines.foreach ( line =>
-      println(counter.countBases(line) mkString " "))
+    val runner = new Runner
+    runner.run(testFilePath, {x => counter.countBases(x) mkString " "})
   } 
   
 }
