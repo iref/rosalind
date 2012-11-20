@@ -18,25 +18,11 @@ object GcContentParser {
 
   private val pattern = new Regex(">(.+?_\\d\\d\\d\\d)(.+)", "id", "dnaString")
 
-  def parse(value: String): GcContent = pattern findFirstIn value match {
-      case Some(pattern(id, dnaString)) => new GcContent(id, dnaString)
-      case None => throw new IllegalArgumentException("Invalid format")
-  }
+  def parse(value: String): List[GcContent] = (for {
+      matched <- (pattern findAllIn value).matchData           
+  } yield new GcContent(matched.group("id"), matched.group("dnaString"))).toList
 
-  def concatContents(values: List[String]): List[String] = {
-    
-    if (values.isEmpty) {
-      Nil
-    } else {
-      val index = values.indexWhere(x => x startsWith ">", 1)
-      if (index == -1) {
-        List(values.flatten mkString "")
-      } else {
-        val (prefix, suffix) = values.splitAt(index)  
-        (prefix.flatten mkString "") :: concatContents(suffix)
-      }      
-    }    
-  }
+  def concatContents(values: List[String]): String = values mkString ""
 
 }
 
@@ -58,8 +44,10 @@ class GcContentOrdering extends Ordering[GcContent] {
 
 object App {
   def main(args: Array[String]): Unit = {
-    val content = GcContentParser.concatContents(Source.fromFile("src/main/scala/gccontent/test.txt").getLines.toList) 
-      .map (line => GcContentParser.parse(line)) max ( new GcContentOrdering)  
+    val content = GcContentParser parse GcContentParser.concatContents (
+      Source.fromFile("src/main/scala/gccontent/test.txt").getLines.toList 
+    ) max  new GcContentOrdering  
+    
     println(content.id)
     println(content.gcContentPercentage)
   }
