@@ -8,7 +8,7 @@ import commons.Runner
  */
 class DnaBaseCounter(alphabet: List[Char]) {
   /** Normalized version of provided DNA bases */
-  private val normalizedAlphabet = alphabet map (_.toLowerCase)
+  private val normalizedAlphabet = alphabet map (_.toLower)
 
   /**
    * Method counts occurrences of base in dnaString
@@ -42,7 +42,7 @@ object App {
   def main(args: Array[String]): Unit = {
     val counter = new DnaBaseCounter(List('A', 'C', 'G', 'T'))
     val runner = new Runner
-    runner.run(testFilePath, {x => counter.countBases(x) mkString " "})
+    runner.run(testFilePath)  {x => counter.countBases(x)}
   } 
   
 }

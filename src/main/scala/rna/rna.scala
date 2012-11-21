@@ -15,7 +15,7 @@ object App {
   def main(args: Array[String]): Unit = {
     val rnaTranslator = new RnaTranslator
     val runner = new Runner
-    runner.run(rnaFile, rnaTranslator.translate)    
+    runner.run(rnaFile) (rnaTranslator.translate)    
   }
 }
 

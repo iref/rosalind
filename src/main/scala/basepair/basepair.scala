@@ -17,6 +17,6 @@ object App {
   def main(args: Array[String]): Unit = {
     val dnaPairing = new DnaPairing
     val runner = new Runner
-    runner.run("src/main/scala/basepair/rosalind_pair.txt", dnaPairing.findPair)
+    runner.run("src/main/scala/basepair/rosalind_pair.txt")(dnaPairing.findPair)
   }
 }
