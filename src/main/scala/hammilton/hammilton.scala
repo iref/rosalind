@@ -4,7 +4,8 @@ import scala.io._
 
 class HammiltonDistance {
 	def count(first: String, second: String): Int = 
-		filterEqualedPositions(zipDnaStrings(first, second)).length
+		((zipDnaStrings(first, second) foldLeft (0)) 
+			((acc, line) => if (line._1 != line._2) acc + 1 else acc))
 
 	def zipDnaStrings(first: String, second: String): Seq[(Char, Char)] = 
 		(first zip second)
@@ -15,7 +16,7 @@ class HammiltonDistance {
 
 object App {
 	def main(args: Array[String]): Unit = {
-		val iter = Source.fromFile("test.txt").getLines
+		val iter = Source.fromFile("src/main/scala/hammilton/test.txt").getLines
 		val h = new HammiltonDistance
 		println(h.count(iter.next, iter.next))
 	}	
